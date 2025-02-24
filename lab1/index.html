@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Database</title>
+</head>
+<body>
+    <h1>Личная База Фильмов</h1>
+    <div id="movieTable"></div>
+    <script>
+        let numberOfFilms;
+        
+        do {
+            numberOfFilms = prompt('Сколько фильмов вы уже посмотрели?', '');
+        } while (numberOfFilms === null || numberOfFilms.trim() === '' || isNaN(numberOfFilms));
+
+        const personalMovieDB = {
+            count: +numberOfFilms,
+            movies: {}
+        };
+
+        for (let i = 0; i < 2; i++) {
+            let lastMovie, movieRating;
+            
+            do {
+                lastMovie = prompt('Один из последних просмотренных фильмов?', '');
+            } while (!lastMovie || lastMovie.length > 50);
+            
+            do {
+                movieRating = prompt('На сколько оцените его?', '');
+            } while (!movieRating || isNaN(movieRating));
+            
+            personalMovieDB.movies[lastMovie] = movieRating;
+        }
+
+        console.log(personalMovieDB);
+
+        function displayMovies() {
+            const container = document.getElementById('movieTable');
+            const table = document.createElement('table');
+            table.border = '1';
+            const headerRow = document.createElement('tr');
+            const th1 = document.createElement('th');
+            th1.textContent = 'Фильм';
+            const th2 = document.createElement('th');
+            th2.textContent = 'Оценка';
+            headerRow.appendChild(th1);
+            headerRow.appendChild(th2);
+            table.appendChild(headerRow);
+
+            for (const movie in personalMovieDB.movies) {
+                const row = document.createElement('tr');
+                const td1 = document.createElement('td');
+                td1.textContent = movie;
+                const td2 = document.createElement('td');
+                td2.textContent = personalMovieDB.movies[movie];
+                row.appendChild(td1);
+                row.appendChild(td2);
+                table.appendChild(row);
+            }
+            
+            container.appendChild(table);
+        }
+
+        displayMovies();
+    </script>
+</body>
+</html>
